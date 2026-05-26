@@ -22,7 +22,7 @@ WiFiMulti wifiMulti;
 WiFiClientSecure client;
 
 // ==========================================
-// FUNÇÕES AUXILIARES DO AGENTE HERMES
+// FUNÇÕES AUXILIARES DO AGENTE ESPCLAW
 // ==========================================
 
 // Função para enviar dados ao OpenRouter
@@ -36,8 +36,8 @@ String perguntarAoOpenRouter(String promptUsuario, String contextoCanal) {
 
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + String(OPENROUTER_KEY));
-  http.addHeader("HTTP-Referer", "https://esp32-hermes.local");
-  http.addHeader("X-Title", "Hermes ESP32-S3 Agent");
+  http.addHeader("HTTP-Referer", "https://esp32-espclaw.local");
+  http.addHeader("X-Title", "EspClaw ESP32-S3 Agent");
 
   JsonDocument doc;
   doc["model"] = IA_MODEL;
@@ -45,7 +45,7 @@ String perguntarAoOpenRouter(String promptUsuario, String contextoCanal) {
 
   JsonObject msg1 = messages.add<JsonObject>();
   msg1["role"] = "system";
-  msg1["content"] = "Você é o Hermes, um agente de IA autônomo rodando 24h em uma ESP32-S3 N16R8. "
+  msg1["content"] = "Você é o EspClaw, um agente de IA autônomo rodando 24h em uma ESP32-S3 N16R8. "
                     "Você está respondendo no canal do Discord: " + contextoCanal + ". "
                     "Seja focado, inteligente e forneça respostas direto ao ponto.";
 
@@ -85,7 +85,7 @@ bool criarCanalDiscord(String nome_canal) {
 
   http.addHeader("Authorization", "Bot " + String(DISCORD_TOKEN));
   http.addHeader("Content-Type", "application/json");
-  http.addHeader("User-Agent", "ESP32-S3-Hermes-Agent (v1.0)");
+  http.addHeader("User-Agent", "ESP32-S3-EspClaw-Agent (v1.0)");
 
   nome_canal.toLowerCase();
   nome_canal.replace(" ", "-");
@@ -114,7 +114,7 @@ String enviarMensagemDiscord(String canal_id, String texto) {
 
   http.addHeader("Authorization", "Bot " + String(DISCORD_TOKEN));
   http.addHeader("Content-Type", "application/json");
-  http.addHeader("User-Agent", "ESP32-S3-Hermes-Agent (v1.0)");
+  http.addHeader("User-Agent", "ESP32-S3-EspClaw-Agent (v1.0)");
 
   JsonDocument doc;
   doc["content"] = texto;
@@ -147,7 +147,7 @@ void editarMensagemDiscord(String canal_id, String msg_id, String novo_texto) {
 
   http.addHeader("Authorization", "Bot " + String(DISCORD_TOKEN));
   http.addHeader("Content-Type", "application/json");
-  http.addHeader("User-Agent", "ESP32-S3-Hermes-Agent (v1.0)");
+  http.addHeader("User-Agent", "ESP32-S3-EspClaw-Agent (v1.0)");
 
   JsonDocument doc;
   doc["content"] = novo_texto;
@@ -171,7 +171,7 @@ void verificarCanalDiscord(String canal_id, String nome_canal, String &last_msg_
   http.setTimeout(10000);
 
   http.addHeader("Authorization", "Bot " + String(DISCORD_TOKEN));
-  http.addHeader("User-Agent", "ESP32-S3-Hermes-Agent (v1.0)");
+  http.addHeader("User-Agent", "ESP32-S3-EspClaw-Agent (v1.0)");
 
   int httpResponseCode = http.GET();
 
@@ -208,7 +208,7 @@ void verificarCanalDiscord(String canal_id, String nome_canal, String &last_msg_
         // COMANDO: status
         if (texto.equalsIgnoreCase("status")) {
           uint32_t uptime_segundos = (millis() - boot_time) / 1000;
-          String status_str = "🟢 **[Hermes N16R8 Status]**\n"
+          String status_str = "🟢 **[EspClaw N16R8 Status]**\n"
                               "• **Uptime:** " + String(uptime_segundos) + "s\n"
                               "• **RAM Interna Livre:** " + String(ESP.getFreeHeap() / 1024) + " KB\n"
                               "• **PSRAM Livre:** " + String(ESP.getFreePsram() / (1024 * 1024)) + " MB";
@@ -216,7 +216,7 @@ void verificarCanalDiscord(String canal_id, String nome_canal, String &last_msg_
         }
         // COMANDO: help
         else if (texto.equalsIgnoreCase("help")) {
-          String help_str = "🤖 **[Hermes Agent - Guia de Comandos]**\n"
+          String help_str = "🤖 **[EspClaw Agent - Guia de Comandos]**\n"
                             "🔹 `status` - Exibe a telemetria do microcontrolador.\n"
                             "🔹 `help` - Abre este menu de ajuda.\n"
                             "🔹 `criar sala NOME` - Cria um canal de texto de forma autônoma.\n"
@@ -231,7 +231,7 @@ void verificarCanalDiscord(String canal_id, String nome_canal, String &last_msg_
             String nomeNovaSala = texto.substring(11); // preserva capitalização original
             nomeNovaSala.trim();
             if (nomeNovaSala.length() > 0) {
-              enviarMensagemDiscord(canal_id, "🛠️ *Hermes está criando a sala #" + nomeNovaSala + "...*");
+              enviarMensagemDiscord(canal_id, "🛠️ *EspClaw está criando a sala #" + nomeNovaSala + "...*");
               if (criarCanalDiscord(nomeNovaSala)) {
                 enviarMensagemDiscord(canal_id, "✅ Sala `#" + nomeNovaSala + "` criada com sucesso!");
               } else {
@@ -241,12 +241,12 @@ void verificarCanalDiscord(String canal_id, String nome_canal, String &last_msg_
           }
           // PROCESSO PADRÃO: Inteligência Artificial
           else {
-            String provisoria_id = enviarMensagemDiscord(canal_id, "⏳ *Hermes está processando sua resposta...*");
-            String respostaHermes = perguntarAoOpenRouter(texto, nome_canal);
+            String provisoria_id = enviarMensagemDiscord(canal_id, "⏳ *EspClaw está processando sua resposta...*");
+            String respostaEspClaw = perguntarAoOpenRouter(texto, nome_canal);
             if (provisoria_id != "") {
-              editarMensagemDiscord(canal_id, provisoria_id, respostaHermes);
+              editarMensagemDiscord(canal_id, provisoria_id, respostaEspClaw);
             } else {
-              enviarMensagemDiscord(canal_id, respostaHermes);
+              enviarMensagemDiscord(canal_id, respostaEspClaw);
             }
           }
         }
@@ -270,7 +270,7 @@ void setup() {
   wifiMulti.addAP(WIFI_SSID_1, WIFI_PASS_1);
   wifiMulti.addAP(WIFI_SSID_2, WIFI_PASS_2);
 
-  Serial.println("Hermes conectando ao sistema Wi-Fi Multi...");
+  Serial.println("EspClaw conectando ao sistema Wi-Fi Multi...");
   while (wifiMulti.run() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
@@ -289,7 +289,7 @@ void setup() {
   esp_task_wdt_reconfigure(&twdt_config);
   esp_task_wdt_add(NULL);
 
-  Serial.println("[Hermes] Inicializado com monitoramento expandido e Task vinculada.");
+  Serial.println("[EspClaw] Inicializado com monitoramento expandido e Task vinculada.");
 }
 
 void loop() {
