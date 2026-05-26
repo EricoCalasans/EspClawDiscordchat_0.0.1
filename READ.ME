@@ -1,0 +1,46 @@
+Crie um arquivo config.h com as seguintes informaçoes 
+
+// ==========================================
+// config.h — Credenciais e Configurações
+// ==========================================
+// ATENÇÃO: Este arquivo contém dados sensíveis.
+// NÃO o compartilhe ou versiona no GitHub.
+// ==========================================
+
+#ifndef CONFIG_H
+#define CONFIG_H
+
+// ====================
+// 1. Wi-Fi
+// ====================
+const char* WIFI_SSID_1   = "";
+const char* WIFI_PASS_1   = ";
+const char* WIFI_SSID_2   = "";
+const char* WIFI_PASS_2   = "";
+
+// ====================
+// 2. Discord — Bot Token
+// ====================
+const char* DISCORD_TOKEN   = "";
+const char* SERVER_ID       = "";
+
+// ====================
+// 3. IDs dos Canais Discord
+// ====================
+const char* CANAL_GERAL          = "";
+
+// ====================
+// 4. OpenRouter (IA)
+// ====================
+const char* OPENROUTER_KEY     = "";
+const char* OPENROUTER_URL     = "https://openrouter.ai/api/v1/chat/completions";
+const char* IA_MODEL           = "";
+
+// ====================
+// 5. Configurações Gerais
+// ====================
+#define WDT_TIMEOUT            15     // segundos
+#define HTTP_TIMEOUT_MS       45000   // ms (45s para resposta da IA)
+#define DELAY_ENTRE_CANAIS_MS  1200   // ms entre verificações de canal
+
+#endif

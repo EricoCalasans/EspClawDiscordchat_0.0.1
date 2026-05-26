@@ -1,0 +1,15 @@
+# Credenciais e dados sensíveis
+config.h
+
+# Arquivos gerados pela IDE
+*.o
+*.elf
+*.map
+*.bin
+*.hex
+build/
+__pycache__/
+
+# Sistema
+.DS_Store
+Thumbs.db
